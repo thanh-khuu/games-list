@@ -6,5 +6,11 @@
 </head>
 <body>
     <h1 th:text="${title}"></h1>
+    <p th:unless="${gamesList} and ${gamesList.size()}">No Games, bro</p>
+    <a href="/games/add">Add Games</a>
+
+    <ul>
+        <li th:each="game : ${gamesList}" th:text="${game}"></li>
+    </ul>
 </body>
 </html>
