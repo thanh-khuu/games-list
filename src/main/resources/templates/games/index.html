@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
-    <meta charset="UTF-8" />
-    <title th:text="${title}">Title</title>
-</head>
+<head th:replace="fragments :: head"></head>
 <body>
     <h1 th:text="${title}"></h1>
+    <nav th:replace="fragments :: navigation"></nav>
     <p th:unless="${gamesList} and ${gamesList.size()}">No Games, bro</p>
-    <a href="/games/add">Add Games</a>
 
     <ul>
         <li th:each="game : ${gamesList}" th:text="${game}"></li>
