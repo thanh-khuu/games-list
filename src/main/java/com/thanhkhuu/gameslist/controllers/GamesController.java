@@ -1,7 +1,10 @@
 package com.thanhkhuu.gameslist.controllers;
 
+import com.thanhkhuu.gameslist.models.Game;
+import com.thanhkhuu.gameslist.models.GameData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,13 +17,11 @@ import java.util.ArrayList;
 @RequestMapping("games")
 public class GamesController {
 
-    static ArrayList<String> gamesList = new ArrayList<>();
-
     //shows list of games currently present
     @RequestMapping(value = "")
     public String index(Model model) {
 
-        model.addAttribute("gamesList", gamesList);
+        model.addAttribute("gamesList", GameData.getAll());
         model.addAttribute("title", "My Games");
         return "games/index";
     }
@@ -34,10 +35,39 @@ public class GamesController {
 
     //processes data received from form to add games to gamesList
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String processAddGamesForm(@RequestParam String gameName) {
-        gamesList.add(gameName);
+    public String processAddGamesForm(@ModelAttribute Game newGame) {
+
+        //above is model-binding Game Object with attributes
+
+        /* Behind The Scenes
+        *
+        * Game newGame = new Game();
+        * newGame.setName(Request.getParameter("name"))   something like this;
+        * newGame.setDescription(Request.getParameter("description"));
+        *
+        * */
+
+        //add that new "Game" object into the gamesList ArrayList
+        GameData.add(newGame);
 
         // Redirect to /games
+        return "redirect:";
+    }
+
+    @RequestMapping(value = "remove", method = RequestMethod.GET)
+    public String displayRemoveGameForm(Model model) {
+        model.addAttribute("games", GameData.getAll());
+        model.addAttribute("title", "Remove Game");
+        return "games/remove";
+    }
+
+    @RequestMapping(value = "remove", method = RequestMethod.POST)
+    public String processRemoveGameForm(@RequestParam int[] gameIds) {
+
+        for (int gameId : gameIds) {
+            GameData.remove(gameId);
+        }
+
         return "redirect:";
     }
 

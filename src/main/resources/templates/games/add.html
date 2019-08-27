@@ -2,11 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 
-<body>
-<h1 th:text="${title}"></h1>
+<!--
+Body is a container class for Bootstrap compatibility purposes.
+-->
+<body class="container">
+<h1 th:text="${title}">Default Title</h1>
 <nav th:replace="fragments :: navigation"></nav>
-<form method="post">
-    <input type="text" name="gameName" />
+
+<!--
+Bootstrap styled form with input boxes at a 600 pixel max width.
+-->
+<form method="post" style="max-width:600px;">
+
+    <div class="form-group">
+        <label for="name-field">Name</label>
+        <input class="form-control" id="name-field" type="text" name="name" />
+    </div>
+
+    <div class="form-group">
+        <label for="desc-field">Description</label>
+        <input class="form-control" id="desc-field" type="text" name="description" />
+    </div>
+
     <input type="submit" value="Add Game" />
 </form>
 

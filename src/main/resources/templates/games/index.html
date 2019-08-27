@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
-<body>
+
+<!--
+Body is a container class for Bootstrap compatibility purposes.
+-->
+<body class="container">
     <h1 th:text="${title}"></h1>
     <nav th:replace="fragments :: navigation"></nav>
     <p th:unless="${gamesList} and ${gamesList.size()}">No Games, bro</p>
 
-    <ul>
-        <li th:each="game : ${gamesList}" th:text="${game}"></li>
-    </ul>
+    <!--
+    Create a table for the Name/Description of each game.
+    For each game in gamesList, show the key/value pair in each row.
+    -->
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+
+        <tr th:each="game : ${gamesList}">
+            <td th:text="${game.name}"></td>
+            <td th:text="${game.description}"></td>
+        </tr>
+    </table>
+
 </body>
 </html>
