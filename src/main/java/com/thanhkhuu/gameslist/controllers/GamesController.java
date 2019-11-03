@@ -4,11 +4,13 @@ import com.thanhkhuu.gameslist.models.Game;
 import com.thanhkhuu.gameslist.models.GameData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 //request path is starts at /games
@@ -30,12 +32,19 @@ public class GamesController {
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddGamesForm(Model model) {
         model.addAttribute("title", "Add Game");
+        model.addAttribute("game", new Game());
         return "games/add";
     }
 
     //processes data received from form to add games to gamesList
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String processAddGamesForm(@ModelAttribute Game newGame) {
+    public String processAddGamesForm(@ModelAttribute @Valid Game newGame,
+                                      Errors errors, Model model) {
+
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Add Game");
+            return "games/add";
+        }
 
         //above is model-binding Game Object with attributes
 
