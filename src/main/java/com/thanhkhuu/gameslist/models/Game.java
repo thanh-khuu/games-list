@@ -13,6 +13,8 @@ public class Game {
     @Size(min=1, message = "Description must not be empty.")
     private String description;
 
+    private GamePlatform platform;
+
 
     private int gameId;
     private static int nextId = 1;
@@ -52,5 +54,11 @@ public class Game {
         this.description = description;
     }
 
+    public GamePlatform getPlatform() {
+        return platform;
+    }
 
+    public void setPlatform(GamePlatform platform) {
+        this.platform = platform;
+    }
 }

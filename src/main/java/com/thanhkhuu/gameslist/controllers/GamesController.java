@@ -2,6 +2,7 @@ package com.thanhkhuu.gameslist.controllers;
 
 import com.thanhkhuu.gameslist.models.Game;
 import com.thanhkhuu.gameslist.models.GameData;
+import com.thanhkhuu.gameslist.models.GamePlatform;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -33,6 +34,7 @@ public class GamesController {
     public String displayAddGamesForm(Model model) {
         model.addAttribute("title", "Add Game");
         model.addAttribute("game", new Game());
+        model.addAttribute("gamePlatforms", GamePlatform.values());
         return "games/add";
     }
 

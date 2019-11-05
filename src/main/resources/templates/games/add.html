@@ -26,6 +26,15 @@ Bootstrap styled form with input boxes at a 600 pixel max width.
         <span th:errors="*{description}" class="error"></span>
     </div>
 
+    <div class="form-group">
+        <label th:for="platform">Platform</label>
+        <select th:field="*{platform}">
+            <option th:each="gamePlatform : ${gamePlatforms}"
+                    th:text="${gamePlatform.name}"
+                    th:value="${gamePlatform}"></option>
+        </select>
+    </div>
+
     <input type="submit" value="Add Game" />
 </form>
 

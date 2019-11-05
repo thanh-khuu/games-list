@@ -18,11 +18,13 @@ Body is a container class for Bootstrap compatibility purposes.
         <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Platform</th>
         </tr>
 
         <tr th:each="game : ${gamesList}">
             <td th:text="${game.name}"></td>
             <td th:text="${game.description}"></td>
+            <td th:text="${game.platform.name}"></td>
         </tr>
     </table>
 
