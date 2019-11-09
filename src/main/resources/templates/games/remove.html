@@ -3,18 +3,19 @@
 <head th:replace="fragments :: head"></head>
 <body class="container">
 
-<h1 th:text="${title}">Default Title</h1>
+    <h1 th:text="${title}">Default Title</h1>
 
-<nav th:replace="fragments :: navigation"></nav>
+    <nav th:replace="fragments :: navigation"></nav>
 
-<form method="post">
-    <div th:each="game : ${games}" class="checkbox">
-        <input type="checkbox" name="gameIds" th:value="${game.gameId}" th:id="${game.gameId}"/>
-        <label th:for="${game.gameId}" th:text="${game.name}"></label>
-    </div>
+    <form method="post">
+        <div th:each="game : ${games}" class="checkbox">
+            <input type="checkbox" name="gameIds" th:value="${game.gameId}" th:id="${game.gameId}"/>
+            <label th:for="${game.gameId}" th:text="${game.name}"></label>
+        </div>
 
-    <input type="submit" value="Remove Cheese" />
-</form>
+        <input type="submit" value="Remove Game" />
+    </form>
 
+    <div th:replace="fragments :: foot"></div>
 </body>
 </html>
