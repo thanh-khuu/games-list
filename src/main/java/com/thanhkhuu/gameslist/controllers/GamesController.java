@@ -1,8 +1,9 @@
 package com.thanhkhuu.gameslist.controllers;
 
 import com.thanhkhuu.gameslist.models.Game;
-import com.thanhkhuu.gameslist.models.GameData;
 import com.thanhkhuu.gameslist.models.GamePlatform;
+import com.thanhkhuu.gameslist.models.data.GameDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 
 //request path is starts at /games
 
@@ -20,11 +20,14 @@ import java.util.ArrayList;
 @RequestMapping("games")
 public class GamesController {
 
+    @Autowired
+    private GameDao gameDao;
+
     //shows list of games currently present
     @RequestMapping(value = "")
     public String index(Model model) {
 
-        model.addAttribute("gamesList", GameData.getAll());
+        model.addAttribute("gamesList", gameDao.findAll());
         model.addAttribute("title", "My Games");
         return "games/index";
     }
@@ -59,7 +62,7 @@ public class GamesController {
         * */
 
         //add that new "Game" object into the gamesList ArrayList
-        GameData.add(newGame);
+        gameDao.save(newGame);
 
         // Redirect to /games
         return "redirect:";
@@ -67,7 +70,7 @@ public class GamesController {
 
     @RequestMapping(value = "remove", method = RequestMethod.GET)
     public String displayRemoveGameForm(Model model) {
-        model.addAttribute("games", GameData.getAll());
+        model.addAttribute("games", gameDao.findAll());
         model.addAttribute("title", "Remove Game");
         return "games/remove";
     }
@@ -76,7 +79,7 @@ public class GamesController {
     public String processRemoveGameForm(@RequestParam int[] gameIds) {
 
         for (int gameId : gameIds) {
-            GameData.remove(gameId);
+            gameDao.delete(gameId);
         }
 
         return "redirect:";

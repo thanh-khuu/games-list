@@ -1,9 +1,19 @@
 package com.thanhkhuu.gameslist.models;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+//Entity is a flag that tells SpringBoot I want to store this class in a Database
+@Entity
 public class Game {
+
+    @Id
+    @GeneratedValue
+    private int id;
+
 
     @NotNull
     @Size(min=3, message = "Name must not be empty.")
@@ -15,27 +25,15 @@ public class Game {
 
     private GamePlatform platform;
 
-
-    private int gameId;
-    private static int nextId = 1;
-
     public Game(String name, String description) {
-        this();
         this.name = name;
         this.description = description;
     }
 
-    public Game() {
-        gameId = nextId;
-        nextId++;
-    }
+    public Game() { }
 
-    public int getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
