@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<!--
+Body is a container class for Bootstrap compatibility purposes.
+-->
+<body class="container">
+<h1 th:text="${title}"></h1>
+<nav th:replace="fragments :: navigation"></nav>
+<p th:unless="${platforms} and ${platforms.size()}">No Gaming Platforms, bro</p>
+
+<ul>
+    <li th:each="platform : ${platforms}">
+        <p th:text="${platform.name}"></p>
+    </li>
+</ul>
+
+<a href="/platforms/add">Add Platform</a> |
+
+
+<div th:replace="fragments :: foot"></div>
+</body>
+</html>

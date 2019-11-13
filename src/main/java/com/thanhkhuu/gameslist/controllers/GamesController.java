@@ -3,6 +3,7 @@ package com.thanhkhuu.gameslist.controllers;
 import com.thanhkhuu.gameslist.models.Game;
 import com.thanhkhuu.gameslist.models.GamePlatform;
 import com.thanhkhuu.gameslist.models.data.GameDao;
+import com.thanhkhuu.gameslist.models.data.GamePlatformDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 
 //request path is starts at /games
 
@@ -22,6 +24,9 @@ public class GamesController {
 
     @Autowired
     private GameDao gameDao;
+
+    @Autowired
+    private GamePlatformDao platformDao;
 
     //shows list of games currently present
     @RequestMapping(value = "")
@@ -36,18 +41,19 @@ public class GamesController {
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddGamesForm(Model model) {
         model.addAttribute("title", "Add Game");
-        model.addAttribute("game", new Game());
-        model.addAttribute("gamePlatforms", GamePlatform.values());
+        model.addAttribute(new Game());
+        model.addAttribute("gamePlatforms", platformDao.findAll());
         return "games/add";
     }
 
     //processes data received from form to add games to gamesList
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddGamesForm(@ModelAttribute @Valid Game newGame,
-                                      Errors errors, Model model) {
+                                      Errors errors, @RequestParam int platformId, Model model) {
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Game");
+            model.addAttribute("platforms", platformDao.findAll());
             return "games/add";
         }
 
@@ -62,6 +68,9 @@ public class GamesController {
         * */
 
         //add that new "Game" object into the gamesList ArrayList
+
+        GamePlatform gamePlatform = platformDao.findOne(platformId);
+        newGame.setPlatform(gamePlatform);
         gameDao.save(newGame);
 
         // Redirect to /games
@@ -83,6 +92,15 @@ public class GamesController {
         }
 
         return "redirect:";
+    }
+
+    @RequestMapping(value = "platforms", method = RequestMethod.GET)
+    public String platform (Model model, @RequestParam int id) {
+        GamePlatform platform = platformDao.findOne(id);
+        List<Game> games = platform.getGames();
+        model.addAttribute("games", games);
+        model.addAttribute("title", "Games on the " + platform.getName());
+        return "games/index";
     }
 
 }

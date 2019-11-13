@@ -1,19 +1,44 @@
 package com.thanhkhuu.gameslist.models;
 
-public enum GamePlatform {
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
-    PlayStation_4 ("PlayStation 4"),
-    Xbox_One ("Xbox One"),
-    Nintendo_Switch ("Nintendo Switch");
+@Entity
+public class GamePlatform {
 
-    private final String name;
+    @Id
+    @GeneratedValue
+    private int id;
 
-    GamePlatform(String name) {
-        this.name=name;
+    @NotNull
+    @Size(min=1, message = "Name must not be empty.")
+    private String name;
+
+    @OneToMany
+    @JoinColumn(name = "platform_id")
+    private List<Game> games = new ArrayList<>();
+
+    public GamePlatform() {}
+
+    public GamePlatform(String name) {this.name = name;}
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Game> getGames() {
+        return games;
     }
 
 }
