@@ -5,9 +5,12 @@ import com.thanhkhuu.gameslist.models.data.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("user")
@@ -23,24 +26,20 @@ public class UserController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String add (Model model) {
+    public String displayAddUserForm(Model model) {
         model.addAttribute("title", "Sign Up");
+        model.addAttribute("user", new User());
         return "user/add";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String add (Model model, @ModelAttribute User user, String verify) {
-
-        if (user.getPassword() != null && user.getPassword().equals(verify)) {
-            model.addAttribute("name", user.getUsername());
-            return "user/index";
+    public String processAddUserForm(Model model, @ModelAttribute @Valid User user, Errors errors) {
+        model.addAttribute(user);
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Sign Up");
+            return "user/add";
         }
-
-        model.addAttribute("title", "Sign Up");
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("error", "Passwords must match to continue");
-
-        return "user/add";
+        userDao.save(user);
+        return "redirect:";
     }
 }

@@ -1,5 +1,7 @@
 package com.thanhkhuu.gameslist.models;
 
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,20 +16,29 @@ public class User {
     private int id;
 
     @NotNull
-    @Size(min=3, message = "Username must be 3 characters or more.")
+    @Size(min=3, max=10, message = "Username must be between 3-10 characters long.")
     private String username;
 
-    @NotNull
+    @Email(message = "Email must be a valid email address")
     private String email;
 
     @NotNull
     @Size(min=8, message = "Password must be 8 characters or more.")
     private String password;
 
+    @NotNull(message = "Passwords gotta match!")
+    private String verify;
+
     public User (String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    private void checkPass() {
+        if (password != null && verify != null && !password.equals(verify)) {
+            verify = null;
+        }
     }
 
     public User() {}
@@ -54,5 +65,15 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+        checkPass();
+    }
+
+    public String getVerify() {
+        return verify;
+    }
+
+    public void setVerify(String verify) {
+        this.verify = verify;
+        checkPass();
     }
 }

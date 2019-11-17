@@ -28,14 +28,14 @@ public class GamePlatformController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String add(Model model) {
+    public String displayGamePlatformForm(Model model) {
         model.addAttribute(new GamePlatform());
         model.addAttribute("title", "Add Platform");
         return "platform/add";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String add(Model model, @ModelAttribute @Valid GamePlatform gamePlatform, Errors errors) {
+    public String processGamePlatformForm(Model model, @ModelAttribute @Valid GamePlatform gamePlatform, Errors errors) {
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Platform");
             return "platform/add";
