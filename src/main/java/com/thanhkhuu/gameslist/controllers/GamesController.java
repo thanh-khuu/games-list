@@ -4,14 +4,12 @@ import com.thanhkhuu.gameslist.models.Game;
 import com.thanhkhuu.gameslist.models.GamePlatform;
 import com.thanhkhuu.gameslist.models.data.GameDao;
 import com.thanhkhuu.gameslist.models.data.GamePlatformDao;
+import com.thanhkhuu.gameslist.models.data.GenreDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,6 +25,9 @@ public class GamesController {
 
     @Autowired
     private GamePlatformDao platformDao;
+
+    @Autowired
+    private GenreDao genreDao;
 
     //shows list of games currently present
     @RequestMapping(value = "")
@@ -87,12 +88,21 @@ public class GamesController {
     @RequestMapping(value = "remove", method = RequestMethod.POST)
     public String processRemoveGameForm(@RequestParam int[] gameIds) {
 
+
         for (int gameId : gameIds) {
             gameDao.delete(gameId);
         }
-
         return "redirect:";
     }
+
+    //edit already-entered games
+    /*public String displayEditForm(Model model, @PathVariable int gameId) {
+
+    }
+
+    public String processEditForm(int gameId, String name, String description) {
+
+    }*/
 
     @RequestMapping(value = "platforms", method = RequestMethod.GET)
     public String platform (Model model, @RequestParam int id) {

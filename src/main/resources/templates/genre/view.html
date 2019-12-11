@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<!--
+Body is a container class for Bootstrap compatibility purposes.
+-->
+<body class="container">
+<h1 th:text="${genre.getName()}"></h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+<ul>
+    <li th:each="game : ${genre.games}" th:text="${game.name}">
+    </li>
+</ul>
+
+<p th:unless="${genre.games.size()}"><i>No Games Yet</i></p>
+
+<p><a th:href="'/genre/add-item/' + ${genre.id}">Add Game</a></p>
+
+<div th:replace="fragments :: foot"></div>
+</body>
+</html>

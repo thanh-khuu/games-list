@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<!--
+Body is a container class for Bootstrap compatibility purposes.
+-->
+<body class="container">
+<h1 th:text="${title}"></h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+<ul>
+    <li th:each="genre : ${genres}">
+        <a th:href="'/genre/view/' + ${genre.id}" th:text="${genre.name}"></a>
+    </li>
+</ul>
+
+<p><a href="/genre/add">Add Genre</a></p>
+
+<div th:replace="fragments :: foot"></div>
+</body>
+</html>

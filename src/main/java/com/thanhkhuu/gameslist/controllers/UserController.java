@@ -25,6 +25,22 @@ public class UserController {
         return "user/index";
     }
 
+    /*@RequestMapping(value = "login", method = RequestMethod.GET)
+    public String displayLoginForm(Model model) {
+        model.addAttribute("title", "Sign In");
+        return "user/login";
+    }
+
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public String processLoginForm(Model model, @ModelAttribute @Valid User user, Errors errors) {
+        model.addAttribute(user);
+        if (errors.hasErrors()) {
+            model.addAttribute("title", "Sign Up");
+            return "user/login";
+        }
+        return "redirect:";
+    }*/
+
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddUserForm(Model model) {
         model.addAttribute("title", "Sign Up");

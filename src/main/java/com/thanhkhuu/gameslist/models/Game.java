@@ -1,11 +1,9 @@
 package com.thanhkhuu.gameslist.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 //Entity is a flag that tells SpringBoot I want to store this class in a Database
 @Entity
@@ -25,6 +23,9 @@ public class Game {
 
     @ManyToOne
     private GamePlatform platform;
+
+    @ManyToMany(mappedBy = "games")
+    private List<Genre> genres;
 
     public Game(String name, String description) {
         this.name = name;

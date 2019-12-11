@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<!--
+Body is a container class for Bootstrap compatibility purposes.
+-->
+<body class="container">
+<h1 th:text="${title}"></h1>
+<nav th:replace="fragments :: navigation"></nav>
+
+<form method="post" style="max-width:600px;" th:object="${form}" action="/genre/add-item">
+    <div class="form-group">
+        <label th:for="gameId">Game</label>
+        <select name="gameId">
+            <option th:each="game : *{games}"
+                    th:text="${game.name}"
+                    th:value="${game.id}"></option>
+        </select>
+    </div>
+
+    <input type="hidden" name="genreId" th:value="*{genre.id}" />
+
+    <input type="submit" value="Add Game Title" />
+</form>
+
+<div th:replace="fragments :: foot"></div>
+</body>
+</html>

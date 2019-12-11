@@ -9,10 +9,9 @@
 
     <form method="post">
         <div th:each="game : ${games}" class="checkbox">
-            <input type="checkbox" name="gameIds" th:value="${game.id}" th:id="${gameIds}"/>
+            <input type="checkbox" name="gameIds" th:value="${game.id}" th:id="${game.id}"/>
             <label th:for="${game.id}" th:text="${game.name}"></label>
         </div>
-
         <input type="submit" value="Remove Game" />
     </form>
 
